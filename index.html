@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guidelines Viewer</title>
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --bg-darker: #050505;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --text-muted: #888888;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #1d4ed8;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --border-subtle: #2a2a2a;
+            --border-emphasis: #404040;
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-emphasis: 0 8px 25px rgba(0, 0, 0, 0.3);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+        color: var(--text-primary);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    h1 {
+        text-align: center;
+        margin: 0 0 40px 0;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+    
+    .toggle-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        padding: 0 10px;
+    }
+    
+    .toggle-btn {
+        padding: 14px 24px;
+        background: var(--bg-card);
+        color: var(--text-primary);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+        min-width: 120px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+    
+    .toggle-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left var(--transition-smooth);
+    }
+    
+    .toggle-btn:hover {
+        background: var(--bg-card-hover);
+        border-color: var(--border-emphasis);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-emphasis);
+    }
+    
+    .toggle-btn:hover::before {
+        left: 100%;
+    }
+    
+    .toggle-btn.active {
+        background: var(--accent-primary);
+        border-color: var(--accent-primary);
+        color: white;
+        box-shadow: 0 0 20px var(--accent-glow);
+    }
+    
+    .toggle-btn.active:hover {
+        background: var(--accent-secondary);
+        transform: translateY(-2px);
+    }
+    
+    .table-container {
+        display: block;
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Desktop Table Styles */
+    .table-wrapper {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-emphasis);
+        border: 1px solid var(--border-subtle);
+        margin-bottom: 30px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+    
+    th, td {
+        padding: 16px 20px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    th {
+        background: linear-gradient(135deg, var(--bg-darker), var(--bg-dark));
+        color: var(--accent-primary);
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    td {
+        transition: background-color var(--transition-fast);
+    }
+    
+    tr:hover td {
+        background: var(--bg-card-hover);
+    }
+    
+    tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .scripture {
+        color: var(--accent-primary);
+        font-style: italic;
+        font-size: 0.9em;
+        opacity: 0.9;
+    }
+    
+    /* Mobile Card Layout */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+        
+        .toggle-buttons {
+            gap: 8px;
+            padding: 0 5px;
+        }
+        
+        .toggle-btn {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            min-width: 100px;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        /* Hide table, show cards */
+        .table-wrapper {
+            display: none;
+        }
+        
+        .mobile-cards {
+            display: block;
+        }
+        
+        .mobile-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow-subtle);
+            transition: all var(--transition-smooth);
+        }
+        
+        .mobile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-emphasis);
+            border-color: var(--border-emphasis);
+        }
+        
+        .mobile-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        
+        .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .card-field {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .card-field:last-child {
+            margin-bottom: 0;
+        }
+        
+        .field-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+        
+        .field-value {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .field-value.scripture {
+            color: var(--accent-primary);
+            font-style: italic;
+        }
+    }
+    
+    /* Desktop: Hide mobile cards */
+    @media (min-width: 769px) {
+        .mobile-cards {
+            display: none;
+        }
+    }
+    
+    /* Ultra-small screens */
+    @media (max-width: 480px) {
+        .container {
+            padding: 10px;
+        }
+        
+        .toggle-buttons {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+        
+        .toggle-btn {
+            max-width: none;
+            padding: 14px 20px;
+        }
+        
+        .mobile-card {
+            padding: 16px;
+        }
+        
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(30px);
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: -200px 0; }
+        100% { background-position: calc(200px + 100%) 0; }
+    }
+    
+    .loading {
+        background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+        background-size: 200px 100%;
+        animation: shimmer 1.5s infinite;
+    }
+    
+    footer {
+        text-align: center;
+        margin-top: 60px;
+        padding: 30px 20px;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        border-top: 1px solid var(--border-subtle);
+    }
+    
+    /* Accessibility improvements */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    
+    /* Focus states for accessibility */
+    .toggle-btn:focus {
+        outline: 2px solid var(--accent-primary);
+        outline-offset: 2px;
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        :root {
+            --border-subtle: #666666;
+            --border-emphasis: #999999;
+        }
+    }
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <h1>Guidelines Viewer</h1>
+
+
+    <div class="toggle-buttons">
+        <button class="toggle-btn active" onclick="showTable('islamic')">Islamic Guidelines</button>
+        <button class="toggle-btn" onclick="showTable('christian')">Christian Guidelines</button>
+    </div>
+    
+    <div id="table-container" class="table-container active"></div>
+    
+    <footer>
+        <p>Use this as a guide for self-reflection and improvement.</p>
+    </footer>
+</div>
+
+<script>
+    // Generalized data structure for rule tables
+    const ruleTables = {
+    islamic: {
+        title: "Islamic Guidelines",
+        headers: ["Category", "Rule/Law in Islam", "How UK Muslims May Unknowingly Break It", "Relevant Quran/Hadith"],
+        rows: [
+            {
+                category: "Financial (Riba & Halal Income)",
+                rule: "Earning/spending interest (riba) is strictly prohibited, including indirect benefits (e.g., bank interest, bonds, dividends from haram stocks).",
+                violation: "Conventional mortgages (Islamic alternatives: Murabaha), student loans, savings accounts, and investments in haram stocks (alcohol/gambling companies). Cryptocurrency trading with interest (DeFi) or unclear permissibility.",
+                scripture: "Quran 2:275-276 – \"Allah permits trade but forbids riba...\" | Quran 3:130 – \"Do not consume riba, doubled and multiplied.\" | Hadith (Muslim): \"Riba has 70 sins; the least is like committing incest.\""
+            },
+            {
+                category: "Dietary (Halal Food)",
+                rule: "Consuming halal-slaughtered meat and avoiding haram ingredients (gelatin, alcohol-based flavors, non-halal E-numbers).",
+                violation: "Eating non-certified meat (e.g., supermarket chicken without halal certification), gelatin in sweets (e.g., Haribo), alcohol in sauces/medicines (e.g., vanilla extract, cough syrup). School/work canteen meals with cross-contamination.",
+                scripture: "Quran 5:3 – \"Forbidden to you are carrion, blood, the flesh of swine...\" | Quran 6:121 – \"Do not eat of what is not slaughtered in Allah’s name.\" | Hadith (Bukhari): \"Avoid what is doubtful to reach what is certain.\""
+            },
+            {
+                category: "Modesty (Hijab & Awrah)",
+                rule: "Men must cover navel to knee; women must observe full hijab (loose, opaque clothing covering all except face/hands in public).",
+                violation: "Wearing tight/revealing gym wear, shorts above the knee (men), or see-through hijabs. Workplace dress codes pressuring removal of hijab or modest attire.",
+                scripture: "Quran 24:31 – \"Tell believing women to draw their veils over their bosoms...\" | Quran 33:59 – \"O Prophet! Tell your wives/daughters to draw their cloaks over themselves.\" | Hadith (Tirmidhi): \"Modesty is part of faith.\""
+            },
+            {
+                category: "Gender Interactions",
+                rule: "Free mixing/khalwa (seclusion) with non-mahram is prohibited; physical contact (e.g., handshakes) is discouraged.",
+                violation: "Unrestricted workplace/social mixing (e.g., open-plan offices), private meetings with opposite gender, or carpooling with non-mahram colleagues. Casual hugs/handshakes in professional settings.",
+                scripture: "Hadith (Bukhari & Muslim) – \"No man is alone with a woman except that Satan is the third.\" | Quran 24:30 – \"Lower your gaze and guard your chastity.\""
+            },
+            {
+                category: "Prayer (Salah)",
+                rule: "Obligatory prayers at fixed times; Jumu'ah is compulsory for men. Prayers must be performed in clean spaces.",
+                violation: "Missing prayers due to work/school schedules (e.g., back-to-back meetings). Incorrect prayer timings in UK summers (late Isha). Using non-halal toiletries (alcohol-based wipes) before prayer.",
+                scripture: "Quran 4:103 – \"Prayer is decreed upon believers at fixed times.\" | Hadith (Ibn Majah) – \"Whoever misses Jumu'ah without excuse is written as a hypocrite.\" | Quran 5:6 – \"Purify yourselves before prayer.\""
+            },
+            {
+                category: "Celebrations",
+                rule: "Imitating non-Islamic religious/cultural festivals is forbidden (e.g., birthdays with pagan origins).",
+                violation: "Participating in Christmas office parties, Halloween trick-or-treating, or Valentine’s Day gifts (may involve shirk/imitation). School nativity plays for children.",
+                scripture: "Hadith (Abu Dawud) – \"Whoever imitates a people is one of them.\" | Quran 58:22 – \"Take not Jews/Christians as allies in disobedience to Allah.\""
+            },
+            {
+                category: "Entertainment",
+                rule: "Music with inappropriate lyrics, explicit media, and games promoting sin (witchcraft/gambling) are haram.",
+                violation: "Listening to mainstream music with haram themes, watching explicit Netflix shows, or playing games like *Harry Potter* (witchcraft) or *Fortnite* (avatar immodesty).",
+                scripture: "Hadith (Bukhari) – \"Musical instruments are haram.\" | Quran 31:6 – \"Avoid idle talk and frivolous entertainment.\" | Hadith (Tirmidhi): \"Singing sprouts hypocrisy in the heart.\""
+            },
+            {
+                category: "Health & Lifestyle",
+                rule: "Tattoos, smoking/vaping, and wasting resources (israf) are prohibited.",
+                violation: "Getting tattoos/vaping (common among youth), excessive water/food waste (e.g., buffets). Cosmetic procedures altering Allah’s creation (e.g., fillers for vanity).",
+                scripture: "Hadith (Bukhari) – \"Allah cursed the one who does tattoos.\" | Quran 7:31 – \"Do not waste; He does not love the wasteful.\" | Hadith (Muslim): \"Do not harm yourself or others.\""
+            },
+            {
+                category: "Social Ethics",
+                rule: "Supporting haram causes (LGBTQ+ advocacy, riba-based charities) is forbidden.",
+                violation: "Donating to non-Islamic charities funding haram activities (e.g., interest-based microloans, LGBTQ+ shelters). Workplace diversity training promoting un-Islamic values.",
+                scripture: "Quran 5:2 – \"Do not cooperate in sin and transgression.\" | Quran 60:8 – \"Allah does not forbid kindness to those who oppose you in faith.\""
+            }
+        ]
+    },
+    christian: {
+        title: "Christian Guidelines",
+        headers: ["Category", "Rule/Law in Christianity", "How UK Christians May Unknowingly Break It", "Relevant Bible Verses"],
+        rows: [
+            {
+                category: "Worship & Idolatry",
+                rule: "\"You shall have no other gods before Me\" (Exodus 20:3). Avoid idolatry (materialism, occult practices).",
+                violation: "Prioritizing career/wealth over God, cultural participation in horoscopes, tarot, or Halloween rituals. \"Manifestation\" trends replacing prayer.",
+                scripture: "Exodus 20:3-5 – \"Do not bow down to idols.\" | 1 John 5:21 – \"Keep yourselves from idols.\" | Colossians 3:5 – \"Greed is idolatry.\""
+            },
+            {
+                category: "Sabbath Observance",
+                rule: "Keep the Sabbath holy (Exodus 20:8); rest and focus on God (traditionally Sunday for Christians).",
+                violation: "Working overtime on Sundays, treating it as a shopping/entertainment day. Children’s sports leagues scheduled on Sundays.",
+                scripture: "Isaiah 58:13-14 – \"Call the Sabbath a delight.\" | Hebrews 4:9-10 – \"A Sabbath rest remains for God’s people.\""
+            },
+            {
+                category: "Sexual Morality",
+                rule: "Sex reserved for marriage (Hebrews 13:4); avoid lust (Matthew 5:28) and pornography.",
+                violation: "Cohabitation before marriage (common in UK culture), pornography use (normalized among youth), LGBTQ+ relationships contrary to Biblical teaching.",
+                scripture: "1 Thessalonians 4:3-5 – \"Abstain from sexual immorality.\" | Romans 1:26-27 – \"God gave them over to shameful lusts.\""
+            },
+            {
+                category: "Generosity & Greed",
+                rule: "\"Do not store up treasures on earth\" (Matthew 6:19); tithe (10%) and avoid greed.",
+                violation: "Materialism (e.g., luxury purchases while neglecting charity), hoarding wealth (e.g., refusing to help homeless). \"Buy now, pay later\" schemes promoting debt.",
+                scripture: "Luke 12:15 – \"Life does not consist in abundance.\" | Acts 20:35 – \"It is more blessed to give than to receive.\""
+            },
+            {
+                category: "Forgiveness",
+                rule: "Forgive others unconditionally (Matthew 6:14-15); reconcile conflicts.",
+                violation: "Holding grudges (e.g., family estrangements), refusing to apologize in workplace disputes. Social media \"cancel culture.\"",
+                scripture: "Matthew 18:21-22 – \"Forgive 70 times 7.\" | Colossians 3:13 – \"Forgive as the Lord forgave you.\""
+            },
+            {
+                category: "Alcohol & Gluttony",
+                rule: "Avoid drunkenness (Ephesians 5:18) and gluttony (Proverbs 23:20-21).",
+                violation: "Binge-drinking culture (e.g., pub crawls), overindulgence in food (e.g., obesity from processed diets). \"Wine mom\" trends normalizing alcohol dependency.",
+                scripture: "Proverbs 23:20-21 – \"Do not join drunkards or gluttons.\" | 1 Corinthians 6:19 – \"Your body is a temple.\""
+            },
+            {
+                category: "Marriage & Divorce",
+                rule: "\"What God has joined, let no one separate\" (Mark 10:9); divorce permitted only for adultery/abandonment.",
+                violation: "Divorcing for \"irreconcilable differences,\" remarriages contrary to Scripture. Cohabitation replacing marriage.",
+                scripture: "Malachi 2:16 – \"I hate divorce.\" | 1 Corinthians 7:10-11 – \"Wife must not separate from husband.\""
+            },
+            {
+                category: "Environmental Stewardship",
+                rule: "Care for creation (Genesis 2:15); avoid waste/pollution.",
+                violation: "Excessive plastic use, fast fashion waste, ignoring climate change (e.g., unnecessary car emissions).",
+                scripture: "Psalm 24:1 – \"The earth is the Lord’s.\" | Revelation 11:18 – \"Destroy those who destroy the earth.\""
+            }
+        ]
+    }
+};
+
+    // Current active table
+    let activeTable = 'islamic';
+
+    // Initialize the app
+    function init() {
+        renderTable(activeTable);
+    }
+
+    // Render table based on type
+    function renderTable(type) {
+        const container = document.getElementById('table-container');
+        const data = ruleTables[type];
+        
+        // Clear previous content
+        container.innerHTML = '';
+        
+        // Create desktop table wrapper
+        const tableWrapper = document.createElement('div');
+        tableWrapper.className = 'table-wrapper';
+        
+        // Create table element
+        const table = document.createElement('table');
+        
+        // Create header
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        
+        data.headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        
+        // Create body
+        const tbody = document.createElement('tbody');
+        
+        data.rows.forEach(rowData => {
+            const row = document.createElement('tr');
+            
+            // Add category cell
+            const categoryCell = document.createElement('td');
+            categoryCell.textContent = rowData.category;
+            row.appendChild(categoryCell);
+            
+            // Add rule cell
+            const ruleCell = document.createElement('td');
+            ruleCell.textContent = rowData.rule;
+            row.appendChild(ruleCell);
+            
+            // Add violation cell
+            const violationCell = document.createElement('td');
+            violationCell.textContent = rowData.violation;
+            row.appendChild(violationCell);
+            
+            // Add scripture/reference cell
+            const referenceCell = document.createElement('td');
+            referenceCell.className = 'scripture';
+            referenceCell.textContent = rowData.scripture;
+            row.appendChild(referenceCell);
+            
+            tbody.appendChild(row);
+        });
+        
+        table.appendChild(tbody);
+        tableWrapper.appendChild(table);
+        container.appendChild(tableWrapper);
+        
+        // Create mobile cards
+        const mobileCards = document.createElement('div');
+        mobileCards.className = 'mobile-cards';
+        
+        data.rows.forEach(rowData => {
+            const card = document.createElement('div');
+            card.className = 'mobile-card';
+            
+            // Card header
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            
+            const headerDiv = document.createElement('div');
+            const title = document.createElement('h3');
+            title.className = 'card-title';
+            title.textContent = rowData.category;
+            headerDiv.appendChild(title);
+            cardHeader.appendChild(headerDiv);
+            card.appendChild(cardHeader);
+            
+            // Rule field
+            const ruleField = document.createElement('div');
+            ruleField.className = 'card-field';
+            const ruleLabel = document.createElement('div');
+            ruleLabel.className = 'field-label';
+            ruleLabel.textContent = data.headers[1]; // Rule/Law header
+            const ruleValue = document.createElement('div');
+            ruleValue.className = 'field-value';
+            ruleValue.textContent = rowData.rule;
+            ruleField.appendChild(ruleLabel);
+            ruleField.appendChild(ruleValue);
+            card.appendChild(ruleField);
+            
+            // Violation field
+            const violationField = document.createElement('div');
+            violationField.className = 'card-field';
+            const violationLabel = document.createElement('div');
+            violationLabel.className = 'field-label';
+            violationLabel.textContent = data.headers[2]; // How broken header
+            const violationValue = document.createElement('div');
+            violationValue.className = 'field-value';
+            violationValue.textContent = rowData.violation;
+            violationField.appendChild(violationLabel);
+            violationField.appendChild(violationValue);
+            card.appendChild(violationField);
+            
+            // Scripture field
+            const scriptureField = document.createElement('div');
+            scriptureField.className = 'card-field';
+            const scriptureLabel = document.createElement('div');
+            scriptureLabel.className = 'field-label';
+            scriptureLabel.textContent = data.headers[3]; // Scripture header
+            const scriptureValue = document.createElement('div');
+            scriptureValue.className = 'field-value scripture';
+            scriptureValue.textContent = rowData.scripture;
+            scriptureField.appendChild(scriptureLabel);
+            scriptureField.appendChild(scriptureValue);
+            card.appendChild(scriptureField);
+            
+            mobileCards.appendChild(card);
+        });
+        
+        container.appendChild(mobileCards);
+    }
+
+    // Show selected table
+    function showTable(type) {
+        // Update active table
+        activeTable = type;
+        
+        // Update button states
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Set active button based on type
+        const buttons = document.querySelectorAll('.toggle-btn');
+        if (type === 'islamic') {
+            buttons[0].classList.add('active');
+        } else if (type === 'christian') {
+            buttons[1].classList.add('active');
+        }
+        
+        // Render the table
+        renderTable(type);
+    }
+
+</script>
+
+</body>
+</html>
