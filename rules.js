@@ -1,7 +1,4 @@
 
-// Rules data for the Guidelines Viewer app
-// This file contains all the rule tables that will be loaded by the main application
-
 window.ruleTables = {
     islamic: {
         title: "Islamic Guidelines",
