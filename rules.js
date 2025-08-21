@@ -1,4 +1,3 @@
-
 window.ruleTables = {
     islamic: {
         title: "Islamic Guidelines",
@@ -302,7 +301,7 @@ window.ruleTables = {
                 category: "Marriage & Family",
                 rule: "Honor marriage covenant; husbands love wives as Christ loved the church; wives respect husbands.",
                 violation: "Emotional affairs through social media, neglecting spouse for work/hobbies, not prioritizing family time, harsh criticism of spouse to others.",
-                scripture: "Ephesians 5:25 – \"Husbands, love your wives as Christ loved the church.\" | Ephesians 5:33 – \"Let the wife see that she respects her husband.\" | 1 Peter 3:7 – \"Husbands, live with your wives in an understanding way.\""​​​​​​​​​​​​​​​​
+                scripture: "Ephesians 5:25 – \"Husbands, love your wives as Christ loved the church.\" | Ephesians 5:33 – \"Let the wife see that she respects her husband.\" | 1 Peter 3:7 – \"Husbands, live with your wives in an understanding way.\""
             },
             {
                 category: "Parenting & Authority",
